@@ -374,6 +374,8 @@ def BuildImageMkfs(in_dir, prop_dict, out_file, target_out, fs_config):
       build_command.extend(["--chunksize", "4096"])
     if "erofs_use_legacy_compression" in prop_dict:
       build_command.extend(["-E", "legacy-compress"])
+    if prop_dict.get("erofs_force_inode_compact") == "true":
+      build_command.extend(["-E", "force-inode-compact"])
 
     build_command.extend([out_file, in_dir])
     if "erofs_sparse_flag" in prop_dict and not disable_sparse:
@@ -778,6 +780,7 @@ def ImagePropFromGlobalDict(glob_dict, mount_point):
       (True, "{}_erofs_compress_hints", "erofs_compress_hints"),
       (True, "{}_erofs_pcluster_size", "erofs_pcluster_size"),
       (True, "{}_erofs_blocksize", "erofs_blocksize"),
+      (True, "{}_erofs_force_inode_compact", "erofs_force_inode_compact"),
       (True, "{}_erofs_share_dup_blocks", "erofs_share_dup_blocks"),
       (True, "{}_extfs_inode_count", "extfs_inode_count"),
       (True, "{}_f2fs_compress", "f2fs_compress"),
